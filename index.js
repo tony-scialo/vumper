@@ -22,7 +22,7 @@ if (process.argv[2]) {
             console.log('ERROR: Argument not supported');
         }
 
-        fs.writeFile('test-p.json', replacedVersion, (err) => {
+        fs.writeFile('package.json', replacedVersion, (err) => {
             if (err) {
                 console.log('ERROR: Writing to package.json');
                 throw err;
