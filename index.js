@@ -21,14 +21,14 @@ if (process.argv[2]) {
         } else if (process.argv[2] === 'major') {
             replacedVersion = JSON.stringify(packageJson, major);
         } else if (process.argv[2] === 'minor') {
-
+            replacedVersion = JSON.stringify(packageJson, minor);
         } else if (process.argv[2] === 'patch') {
 
         } else {
             console.log('ERROR: Argument not supported');
         }
 
-        fs.writeFile('package.json', replacedVersion, (err) => {
+        fs.writeFile('package-1.json', replacedVersion, (err) => {
             if (err) {
                 console.log('ERROR: Writing to package.json');
                 throw err;
@@ -100,9 +100,45 @@ function major(name, val) {
 }
 
 function increaseMajor(val) {
-    const firstDot = val.firstIndexOf('.');
+    const firstDot = val.indexOf('.');
     let firstValue = val.slice(0, firstDot);
     const restOfVersion = val.slice(firstDot, val.length);
     firstValue = Number(firstValue) + 1;
     return firstValue + restOfVersion;
+}
+
+function minor(name, val) {
+    if (name === 'version') {
+        return increaseMinor(val);
+    } else {
+        return val;
+    }
+}
+
+function increaseMinor(val) {
+    const firstDot = val.indexOf('.');
+    const secondDot = nthIndex(val, '.', 2);
+    const firstHalf = val.slice(0, firstDot);
+    const secondHalf = val.slice(secondDot + 1, val.length);
+    let minorV = val.slice(firstDot + 1, secondDot);
+
+    console.log(firstHalf);
+    console.log(secondHalf);
+    console.log(minorV);
+
+    minorV = Number(minorV) + 1;
+    return firstHalf + '.' + minorV + '.' + secondHalf;
+}
+
+/*
+ * Util function pulled from SO to find the nth index of a given string
+ */
+function nthIndex(str, pat, n) {
+    var L = str.length,
+        i = -1;
+    while (n-- && i++ < L) {
+        i = str.indexOf(pat, i);
+        if (i < 0) break;
+    }
+    return i;
 }
