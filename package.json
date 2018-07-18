@@ -1,6 +1,6 @@
 {
   "name": "vumper",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "NPM package version manager",
   "main": "index.js",
   "scripts": {
