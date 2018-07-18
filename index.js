@@ -23,7 +23,7 @@ if (process.argv[2]) {
         } else if (process.argv[2] === 'minor') {
             replacedVersion = JSON.stringify(packageJson, minor);
         } else if (process.argv[2] === 'patch') {
-
+            replacedVersion = JSON.stringify(packageJson, patch);
         } else {
             console.log('ERROR: Argument not supported');
         }
@@ -121,13 +121,35 @@ function increaseMinor(val) {
     const firstHalf = val.slice(0, firstDot);
     const secondHalf = val.slice(secondDot + 1, val.length);
     let minorV = val.slice(firstDot + 1, secondDot);
-
-    console.log(firstHalf);
-    console.log(secondHalf);
-    console.log(minorV);
-
     minorV = Number(minorV) + 1;
     return firstHalf + '.' + minorV + '.' + secondHalf;
+}
+
+function patch(name, val) {
+    if (name === 'version') {
+        return increasePatch(val);
+    } else {
+        return val;
+    }
+}
+
+function increasePatch(val) {
+    const secondDot = nthIndex(val, '.', 2);
+
+    let secondHalf;
+    let secondIndex;
+    if (val.indexOf('-') != -1) {
+        secondIndex = val.indexOf('-');
+        secondHalf = val.slice(secondIndex, val.length);
+    } else {
+        secondIndex = val.length;
+        secondHalf = '';
+    }
+    const firstHalf = val.slice(0, secondDot);
+    let patch = val.slice(secondDot + 1, secondIndex);
+    patch = Number(patch) + 1;
+
+    return firstHalf + '.' + patch + secondHalf;
 }
 
 /*
