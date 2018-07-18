@@ -14,10 +14,16 @@ if (process.argv[2]) {
             replacedVersion = JSON.stringify(packageJson, addDv);
         } else if (process.argv[2] === 'rc') {
             replacedVersion = JSON.stringify(packageJson, addRc);
-        } else if (process.argv[2] === 'increment') {
+        } else if (process.argv[2] === 'increment-pre') {
             replacedVersion = JSON.stringify(packageJson, incrementLastValue);
-        } else if (process.argv[2] === 'remove') {
+        } else if (process.argv[2] === 'remove-pre') {
             replacedVersion = JSON.stringify(packageJson, removePreRelease);
+        } else if (process.argv[2] === 'major') {
+            replacedVersion = JSON.stringify(packageJson, major);
+        } else if (process.argv[2] === 'minor') {
+
+        } else if (process.argv[2] === 'patch') {
+
         } else {
             console.log('ERROR: Argument not supported');
         }
@@ -83,4 +89,20 @@ function remove(val) {
     const dash = val.lastIndexOf('-');
     const nameOnly = val.slice(0, dash);
     return nameOnly;
+}
+
+function major(name, val) {
+    if (name === 'version') {
+        return increaseMajor(val);
+    } else {
+        return val;
+    }
+}
+
+function increaseMajor(val) {
+    const firstDot = val.firstIndexOf('.');
+    let firstValue = val.slice(0, firstDot);
+    const restOfVersion = val.slice(firstDot, val.length);
+    firstValue = Number(firstValue) + 1;
+    return firstValue + restOfVersion;
 }
