@@ -4,7 +4,17 @@
   "description": "NPM package version manager",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "build": "babel src -d run",
+    "test": "node run/index.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
   "repository": {
     "type": "git",
